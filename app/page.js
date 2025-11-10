@@ -4,18 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Loader2, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Home() {
   const [fileName, setFileName] = useState(null);
   const [fileLoading, setFileLoading] = useState(false)
 
   useEffect(() => {
-    if(!fileName) return;
+    if (!fileName) return;
 
     console.log("Selected file: ", fileName);
     setFileLoading(true);
 
-    //simulate time for asynk work
+    //simulate time for async work
     const timer = setTimeout(() => {
       setFileLoading(false);
     }, 1000);
@@ -24,10 +25,28 @@ export default function Home() {
   }, [fileName]);
 
   const handleChooseFile = (e) => {
-     const file = e.target.files[0];
-     if(file) {
+    const file = e.target.files[0];
+    if (!file.name.endsWith(".pdf")) {
+      toast.error("Only PDF files are allowed!", {
+        style: {
+          borderRadius: "10px",
+          background: "white", // very light red
+          color: "#b91c1c",       // calm red text
+          border: "1px solid #fecaca", // soft red border
+          fontWeight: 500,
+          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+        },
+        iconTheme: {
+          primary: "#ef4444", // red icon
+          secondary: "#fef2f2", // matches background
+        },
+      });
+
+      return
+    }
+    if (file) {
       setFileName(file);
-     }
+    }
   };
 
   const handleRemoveFile = () => {
@@ -35,9 +54,9 @@ export default function Home() {
   }
   return (
     <div className="flex items-center gap-3 justify-between font-sans dark:bg-neutral-950 rounded-3xl px-4 py-1 shadow-lg w-[55vw] min-h-[12vh]">
-
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="relative">
-         {fileName && (
+        {fileName && (
           <div className="absolute -top-14 flex items-center gap-2 bg-gray-100 dark:bg-neutral-800 px-3 py-1 rounded-xl shadow-md animate-fadeIn">
             <p className="text-xs text-gray-700 dark:text-gray-200 truncate max-w-[120px]">
               {fileName.name}
@@ -55,9 +74,9 @@ export default function Home() {
         <input onChange={handleChooseFile} id="fileType" className="hidden" type="file" />
       </div>
       <Textarea
-        className={`rounded-[1.5rem] h-[34%]`}
+        className={`justify-center mb-[-35px] items-center content-center h-[34%]`}
         placeholder="Type your message here." />
-      <Button variant={"secondary"} className={`rounded-2xl cursor-pointer`}>Send</Button>
+      <Button className={`rounded-2xl cursor-pointer`}>Send</Button>
     </div>
   );
 }

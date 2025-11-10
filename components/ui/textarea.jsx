@@ -7,13 +7,29 @@ function Textarea({
   ...props
 }) {
   return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        "border-input placeholder:text-muted-foreground  focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-      {...props} />
+   <textarea
+  data-slot="textarea"
+  className={cn(
+    // 🔹 Base layout
+    "flex min-h-16 w-full resize-none bg-transparent text-base md:text-sm",
+    
+    // 🔹 Remove all visual borders / outlines
+    "border-0 outline-none ring-0 focus-visible:ring-0 focus-visible:border-0",
+    
+    // 🔹 Placeholder subtle and modern
+    "placeholder:text-gray-400 dark:placeholder:text-gray-500",
+    
+    // 🔹 Disable background / shadow / border completely
+    "shadow-none focus:shadow-none focus-visible:shadow-none",
+    
+    // 🔹 Disabled state handled gently
+    "disabled:cursor-not-allowed disabled:opacity-50",
+    
+    className
+  )}
+  {...props}
+/>
+
   );
 }
 
