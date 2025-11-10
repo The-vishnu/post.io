@@ -1,6 +1,7 @@
 {
   "name": "postio",
   "version": "0.1.0",
+  "author": "Vishnu Dompale (Vishy)",
   "private": true,
   "scripts": {
     "dev": "next dev",

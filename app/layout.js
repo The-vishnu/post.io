@@ -10,9 +10,12 @@ export default function RootLayout({ children }) {
       <body>
         <SidebarClientProvider>
           <AppSidebar />
-          <main>
-            <SidebarTrigger />
-            {children}
+          <SidebarTrigger className={`cursor-pointer`}/>
+          <main className="flex flex-row w-full">
+             <div className=" rounded-2xl bg-gray-100 h-screen w-full right-20 top-0 flex items-center justify-center">
+              
+              {children}
+            </div>
           </main>
         </SidebarClientProvider>
       </body>
