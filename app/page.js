@@ -2,14 +2,19 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Loader2, X } from "lucide-react";
+import { Plus, Loader2, X, Rocket, GrapeIcon, BarChart } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function Home() {
+  const AnswerArea = [];
   const [fileName, setFileName] = useState(null);
-  const [fileLoading, setFileLoading] = useState(false)
+  const [ansArea, setAnsArea] = useState([]);
+  const [input, setInput] = useState("");
+  const [fileLoading, setFileLoading] = useState(false);
 
+  console.log(input);
+  
   useEffect(() => {
     if (!fileName) return;
 
@@ -50,33 +55,58 @@ export default function Home() {
   };
 
   const handleRemoveFile = () => {
-    setFileName(null)
+    setFileName(null);
   }
+
+
   return (
-    <div className="flex items-center gap-3 justify-between font-sans dark:bg-neutral-950 rounded-3xl px-4 py-1 shadow-lg w-[55vw] min-h-[12vh]">
-      <Toaster position="top-right" reverseOrder={false} />
-      <div className="relative">
-        {fileName && (
-          <div className="absolute -top-14 flex items-center gap-2 bg-gray-100 dark:bg-neutral-800 px-3 py-1 rounded-xl shadow-md animate-fadeIn">
-            <p className="text-xs text-gray-700 dark:text-gray-200 truncate max-w-[120px]">
-              {fileName.name}
-            </p>
-            <button
-              onClick={handleRemoveFile}
-              className="p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition"
-            >
-              <X size={14} className="text-gray-600 dark:text-gray-300" />
-            </button>
+    <>
+      
+      {input ? (<div className="font-semibold flex flex-col gap-4 p-3.5 h-[80vh] w-[60vw]">
+        <div className="text-[1.5rem]">{input}</div>
+        <div className="text-[1rem] w-[55vw] h-[50px]">
+          <div className="absolute  cursor-pointer flex flex-row gap-1 items-center justify-center">
+            <Rocket size={18} />
+            <p>Answer</p>
           </div>
-        )}
-        <label htmlFor="fileType"
-          className="flex items-center justify-center w-10 h-10 dark:bg-neutral-800 rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md">{fileLoading ? <Loader2 className="animate-spin" /> : <Plus />}</label>
-        <input onChange={handleChooseFile} id="fileType" className="hidden" type="file" />
+          <div className="ml-24 absolute cursor-pointer flex flex-row gap-1 items-center justify-center">
+            <BarChart size={18} />
+            score
+          </div>
+        </div>
+        <div className="text-[0.9rem] w-[56vw] v-[50vh] overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+         
+        </div>
+
+      </div>) : (<div className="font-semibold text-2xl">Check your resume score now !</div>)}
+      
+      <div className="flex items-center gap-3 justify-between font-sans dark:bg-neutral-950 rounded-3xl px-4 py-1 shadow-lg w-[55vw] min-h-[12vh]">
+        <Toaster position="top-right" reverseOrder={false} />
+        <div className="relative">
+          {fileName && (
+            <div className="absolute -top-14 flex items-center gap-2 bg-gray-100 dark:bg-neutral-800 px-3 py-1 rounded-xl shadow-md animate-fadeIn">
+              <p className="text-xs text-gray-700 dark:text-gray-200 truncate max-w-[120px]">
+                {fileName.name}
+              </p>
+              <button
+                onClick={handleRemoveFile}
+                className="p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition"
+              >
+                <X size={14} className="text-gray-600 dark:text-gray-300" />
+              </button>
+            </div>
+          )}
+          <label htmlFor="fileType"
+            className="flex items-center justify-center w-10 h-10 dark:bg-neutral-800 rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md">{fileLoading ? <Loader2 className="animate-spin" /> : <Plus />}</label>
+          <input onChange={handleChooseFile} id="fileType" className="hidden" type="file" />
+        </div>
+
+        <Textarea
+          onChange={(e) => { setInput(e.target.value) }}
+          className={`justify-center mb-[-35px] items-center content-center h-[34%]`}
+          placeholder="Type your message here." />
+        <Button className={`rounded-2xl cursor-pointer`}>Send</Button>
       </div>
-      <Textarea
-        className={`justify-center mb-[-35px] items-center content-center h-[34%]`}
-        placeholder="Type your message here." />
-      <Button className={`rounded-2xl cursor-pointer`}>Send</Button>
-    </div>
+    </>
   );
 }
